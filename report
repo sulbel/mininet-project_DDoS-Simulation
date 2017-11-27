@@ -1,0 +1,25 @@
+Theory of DDoS Attack
+
+A target host (h1) was selected to receive the DDoS attack, while all other hosts in the network attempted to perform an attack against the target.
+This was accomplished by starting a basic UDP server (UDPServer.py) on h1, and UDP clients (UDPClient.py) on all attacking hosts.
+UDPServer receives a message "junk " from some client, converts the message to upper-case, and sends it back to the client.
+By increasing both the quantity and size of datagrams sent by each client, the links to the target host start to become congested.
+Overall, this decreases the throughput and performance of h1, even when all other aspects of the network remain unchanged.
+
+
+Testing
+
+To give a reference point of performance, each set of hosts (8, 16, 32, 64, 128) ran the `iperf` command without attacking the target host.
+Then, each attacking host sent 20 datagrams with the payload "junk " to h1, and `iperf` was again used to measure bandwidth.
+Finally, each attacking host sent 200 datagrams with payload ("junk " * 600), i.e. a string of 600 "junk "s, and the bandwidth was measured again.
+As the number of hosts and datagrams increased, there was a noticeable decrease in bandwidth.
+
+
+
+
+
+Usage
+
+To start a topology with n-total hosts, change the 'n' parameter in the first line of function simpleTest(); topo = myDataCenterTopo(n).
+Parameter n is the total number of hosts connected to each edge switch, i.e. n == 1/4 of the total hosts in the network.  For example,
+to create a topology with 16 total hosts connected across the 4 edge switches, n would be set to 16/4 == 4.

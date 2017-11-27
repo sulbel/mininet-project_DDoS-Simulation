@@ -8,12 +8,12 @@ from mininet.cli import CLI
 
 
 
-
+# data center topology with a single core switch,
+    # 2 aggregate switch, 4 edge switch, and n*4 hosts
 class myDataCenterTopo(Topo):
     def __init__(self, n):       # n is the number of hosts at each edge switch
 
         Topo.__init__( self )
-
 
         host_number = 1
         edge_number = 1
@@ -39,12 +39,30 @@ class myDataCenterTopo(Topo):
                     host = self.addHost('h%s' % host_number, cpu=0.125/n)
                     host_number = host_number + 1
                     # link between edge switch and host
-                    self.addLink(edge_switch, host, bw=10, delay="15ms") # bw 10Mbps delay 15ms
+                    self.addLink(edge_switch, host, bw=10, delay="15ms", loss=0, max_queue_size=1000) # bw 10Mbps delay 15ms
+
+# start a DDoS attack
+    # always targets h1 with IP of 10.0.0.1
+    # sends large UDP datagrams to h1, saturating its links
+def myAttack(net):
+    hosts = net.hosts
+    popens = {}
+    for host in hosts:
+        if host.name == 'h1':   # dont want to execute DDoS code at the target
+            continue
+        else:                   # make all other hosts DDoS h1
+            # print 'host', host.name, 'with IP', host.IP(), 'starting DDoS..\n'
+            print 'starting DDoS attack with', host.name
+            popens[host.name] = net.get(host.name).popen('python UDPClient.py')       # popen used so that performance may be measured during attack
+
+    return popens
 
 
-
+# initializes data center mininet topology..
+    # then starts a simple UDP server on target host (h1)..
+    # before calling function myAttack, which floods h1 with all other hosts
 def simpleTest():
-    topo = myDataCenterTopo(n=2)
+    topo = myDataCenterTopo(n=32)
     net = Mininet(topo=topo, link=TCLink)
     print 'starting mininet..'
     net.start()
@@ -52,23 +70,16 @@ def simpleTest():
     print 'trying to start UDP client and server...\n'
     targetHost = net.get('h1')
     print 'targ host has IP:', targetHost.IP()
-    p1 = targetHost.popen('python UDPServer.py')
 
-    attackingHost = net.get('h8')
-    print 'attack host has IP:', attackingHost.IP()
-    attackingHost.cmd('python UDPClient.py')
+    # p1 = targetHost.popen('python UDPServer.py')
+    # pAttackers = myAttack(net)
 
-
-    #print 'host 1 is:', h1
-    #print 'with an IP address of:', h1.IP()
     #print 'starting pingall..'
     #net.pingAll()
-    #print 'hosts are..'
-    #print net.hosts
-    #print 'switches are..'
-    #print net.switches
-    #CLI(net)
-    p1.terminate()
+
+
+    CLI(net)
+    # p1.terminate()
     net.stop()
 
 def main():
