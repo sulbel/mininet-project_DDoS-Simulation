@@ -1,9 +1,9 @@
 8 hosts:
 hosts
-![](https://imgur.com/K0islMj)
+![h](https://imgur.com/K0islMj)
 
 switches
-![](https://imgur.com/fil7LMa)
+![s](https://imgur.com/fil7LMa)
 
 
 
@@ -11,10 +11,10 @@ switches
 
 16 hosts:
 hosts
-![](https://imgur.com/vNubgnr)
+![h](https://imgur.com/vNubgnr)
 
 switches
-![](https://imgur.com/17EzuJS)
+![s](https://imgur.com/17EzuJS)
 
 
 
@@ -22,10 +22,10 @@ switches
 
 32 hosts:
 hosts
-![](https://imgur.com/13dcEu9)
+![h](https://imgur.com/13dcEu9)
 
 switches
-![](https://imgur.com/dsd7YNc)
+![s](https://imgur.com/dsd7YNc)
 
 
 
@@ -33,13 +33,13 @@ switches
 
 64 hosts:
 hosts
-![](https://imgur.com/Vg4wm9V)
+![h](https://imgur.com/Vg4wm9V)
 
 switches
-![](https://imgur.com/hVdZG7x)
+![s](https://imgur.com/hVdZG7x)
 
 
 
 128 hosts:
 switches
-![](https://imgur.com/RcBUDXq)
+![s](https://imgur.com/RcBUDXq)
